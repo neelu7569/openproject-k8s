@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: memcached
+  namespace: openproject
+spec:
+  serviceName: memcached-svc
+  replicas: 1
+  selector:
+    matchLabels:
+      app: memcached
+  template:
+    metadata:
+      labels:
+        app: memcached
+    spec:
+      containers:
+        - name: memcached
+          image: memcached:1.6.9
+          args: ["-m", "512"]
+          ports:
+            - containerPort: 11211
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "250m"
+            limits:
+              memory: "1Gi"
+              cpu: "500m"
