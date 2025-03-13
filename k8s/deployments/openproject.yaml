@@ -42,10 +42,10 @@ spec:
           resources:
             requests:
               memory: "2Gi"
-              cpu: "1000m"
+              cpu: "1"
             limits:
               memory: "4Gi"
-              cpu: "2000m"
+              cpu: "2"
           readinessProbe:
             httpGet:
               path: /health_checks/ready
@@ -69,4 +69,3 @@ spec:
         - name: attachments
           persistentVolumeClaim:
             claimName: openproject-attachments
-

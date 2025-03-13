@@ -1,0 +1,43 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: openproject-migrate
+  namespace: openproject
+spec:
+  template:
+    metadata:
+      name: openproject-migrate
+    spec:
+      containers:
+        - name: openproject
+          image: openproject/openproject:15.3.2-slim
+          command: ["bin/rails", "db:migrate"]
+          env:
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: openproject-secrets
+                  key: POSTGRES_USER
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: openproject-secrets
+                  key: POSTGRES_PASSWORD
+            - name: POSTGRES_DB
+              valueFrom:
+                secretKeyRef:
+                  name: openproject-secrets
+                  key: POSTGRES_DB
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: openproject-secrets
+                  key: DATABASE_URL
+            - name: SECRET_KEY_BASE
+              valueFrom:
+                secretKeyRef:
+                  name: openproject-secrets
+                  key: SECRET_KEY_BASE
+      restartPolicy: Never
+  backoffLimit: 4
+
