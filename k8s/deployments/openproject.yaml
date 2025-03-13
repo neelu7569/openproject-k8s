@@ -17,7 +17,7 @@ spec:
         - name: openproject
           image: openproject/openproject:15.3.2-slim
           ports:
-            - containerPort: 3000
+            - containerPort: 8080
           env:
             - name: POSTGRES_USER
               valueFrom:
@@ -46,18 +46,20 @@ spec:
             limits:
               memory: "4Gi"
               cpu: "2"
-          readinessProbe:
-            httpGet:
-              path: /health_checks/ready
-              port: 3000
-            initialDelaySeconds: 90
-            periodSeconds: 10
-          livenessProbe:
-            httpGet:
-              path: /health_checks/live
-              port: 3000
-            initialDelaySeconds: 90
-            periodSeconds: 10
+          # readinessProbe:
+          #   httpGet:
+          #     path: /health_checks/ready
+          #     port: 8080
+          #     scheme: HTTP
+          #   initialDelaySeconds: 180
+          #   periodSeconds: 10
+          # livenessProbe:
+          #   httpGet:
+          #     path: /health_checks/live
+          #     port: 8080
+          #     scheme: HTTP
+          #   initialDelaySeconds: 180
+          #   periodSeconds: 10
           volumeMounts:
             - name: assets
               mountPath: /app/public/assets
@@ -69,3 +71,4 @@ spec:
         - name: attachments
           persistentVolumeClaim:
             claimName: openproject-attachments
+
