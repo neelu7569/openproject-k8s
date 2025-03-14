@@ -19,6 +19,8 @@ spec:
           ports:
             - containerPort: 8080
           env:
+            - name: RAILS_FORCE_SSL
+              value: "false"
             - name: POSTGRES_USER
               valueFrom:
                 secretKeyRef:
