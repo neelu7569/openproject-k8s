@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: openproject-attachments
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: openproject-sc
+  resources:
+    requests:
+      storage: 10Gi

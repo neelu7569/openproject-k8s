@@ -20,25 +20,39 @@ spec:
         ports:
         - containerPort: 8080
         env:
-            - name: RAILS_FORCE_SSL
-              value: "false"
-            - name: POSTGRES_USER
-              valueFrom:
-                secretKeyRef:
-                  name: openproject-secrets
-                  key: POSTGRES_USER
-            - name: POSTGRES_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: openproject-secrets
-                  key: POSTGRES_PASSWORD
-            - name: POSTGRES_DB
-              valueFrom:
-                secretKeyRef:
-                  name: openproject-secrets
-                  key: POSTGRES_DB
-            - name: DATABASE_URL
-              valueFrom:
-                secretKeyRef:
-                  name: openproject-secrets
-                  key: DATABASE_URL
+        - name: RAILS_FORCE_SSL
+          value: "false"
+        - name: RAILS_HOST
+          value: "a3020d3bbcacf4ac28c87cc0a6f266b4-839626294.eu-north-1.elb.amazonaws.com"
+        - name: POSTGRES_USER
+          valueFrom:
+            secretKeyRef:
+              name: openproject-secrets
+              key: POSTGRES_USER
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: openproject-secrets
+              key: POSTGRES_PASSWORD
+        - name: POSTGRES_DB
+          valueFrom:
+            secretKeyRef:
+              name: openproject-secrets
+              key: POSTGRES_DB
+        - name: DATABASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: openproject-secrets
+              key: DATABASE_URL
+        volumeMounts:
+        - name: assets
+          mountPath: /app/public/assets
+        - name: attachments
+          mountPath: /app/files
+      volumes:
+      - name: assets
+        emptyDir: {}
+      - name: attachments
+        persistentVolumeClaim:
+          claimName: openproject-attachments
+
